@@ -24,6 +24,7 @@ def set_chrome_options() -> None:
     chrome_options.add_argument("--dns-prefetch-disable");
     chrome_options.add_argument("enable-automation");
     chrome_options.add_argument("--disable-gpu");
+    chrome_options.binary_location="/usr/bin/google-chrome-stable";
 
     return chrome_options
 
@@ -32,10 +33,10 @@ DRIVER_PATH = './chromedriver'
 
 #For docker
 chrome_options = set_chrome_options();
-# driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(options=chrome_options,executable_path=DRIVER_PATH)
 
 #For local
-driver = webdriver.Chrome(executable_path=DRIVER_PATH)
+# driver = webdriver.Chrome(executable_path=DRIVER_PATH)
 
 dataCollected = {};
 validEmailRegex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
