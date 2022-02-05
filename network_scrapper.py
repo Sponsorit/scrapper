@@ -16,9 +16,8 @@ def set_chrome_options() -> None:
     Chrome options for headless browser is enabled.
     """
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("headless")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--window-size=1920,1080");
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-extensions");
     chrome_options.add_argument("--dns-prefetch-disable");
@@ -33,7 +32,7 @@ DRIVER_PATH = './chromedriver'
 
 #For docker
 chrome_options = set_chrome_options();
-driver = webdriver.Chrome(options=chrome_options,executable_path=DRIVER_PATH)
+# driver = webdriver.Chrome(options=chrome_options,executable_path=DRIVER_PATH)
 
 #For local
 # driver = webdriver.Chrome(executable_path=DRIVER_PATH)
@@ -50,6 +49,7 @@ with open('./twitch_users_'+str(initialList)+'.csv', newline='') as csvfile:
     for row in spamreader:
         
         if row[0] != "user":
+            driver = webdriver.Chrome(options=chrome_options,executable_path=DRIVER_PATH)
             userFound = True
             dataCollected[row[0]]={}
             driver.get('https://twitch.tv/'+row[0])
