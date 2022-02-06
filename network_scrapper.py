@@ -28,7 +28,7 @@ def set_chrome_options() -> None:
     return chrome_options
 
 
-DRIVER_PATH = './chromedriver'
+DRIVER_PATH = './chromedriver98'
 
 #For docker
 chrome_options = set_chrome_options();
@@ -101,4 +101,5 @@ with open('./twitch_users_'+str(initialList)+'.csv', newline='') as csvfile:
                         fileCounter = rowCounter / 5000
                         headerWritten = False
                     rowCounter = rowCounter + 1
+            driver.quit()
 
