@@ -42,7 +42,7 @@ validEmailRegex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 headerWritten = False
 fileCounter=0.0
 rowCounter=0
-initialList=2
+initialList=1
 with open('./twitch_users_'+str(initialList)+'.csv', newline='') as csvfile:
     
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
