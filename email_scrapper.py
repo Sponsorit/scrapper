@@ -58,6 +58,7 @@ def logInsta(driver):
         return False
 dataCollected = {}
 headerWritten= False
+loggedFirstLog = False
 with open('./twitch_users_networks_total.csv', newline='') as csvfile:
     with open('twitch_users_emails.csv', 'w') as emailsFile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
@@ -65,32 +66,44 @@ with open('./twitch_users_networks_total.csv', newline='') as csvfile:
             emailsFile.write("user,instagramEmail,twitterEmail,\n");
             headerWritten = True
         for row in spamreader:
+            
             if not LogedIn:
+                print("Not logged in")
                 LogedIn = logInsta(driver)
             if LogedIn:
+                if not loggedFirstLog:
+                    print("Logged In")
+                    loggedFirstLog = False
                 userName = row[0]
+                print(userName)
                     if userName != "user":
                         dataCollected[userName]={}
                         emailsFile.write(userName+",")
 
                         if(row[2] is not ''):
-                            driver.get(row[2])
-                            descriptionSpans = WebDriverWait(driver,3).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "header section div:last-of-type span")))
-                            for span in descriptionSpans:
-                                spanText = span.text
-                                dataCollected[row[0]]["instagramBussinesEmail"]=re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', spanText)
-                            if "instagramBussinesEmail" in dataCollected[row[0]]:
-                                emailsFile.write("%s"%(dataCollected[row[0]]["instagramBussinesEmail"]))
-                            emailsFile.write(",")
+                            try:
+                                driver.get(row[2])
+                                descriptionSpans = WebDriverWait(driver,3).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "header section div:last-of-type span")))
+                                for span in descriptionSpans:
+                                    spanText = span.text
+                                    dataCollected[row[0]]["instagramBussinesEmail"]=re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', spanText)
+                                if "instagramBussinesEmail" in dataCollected[row[0]]:
+                                    emailsFile.write("%s"%(dataCollected[row[0]]["instagramBussinesEmail"]))
+                                emailsFile.write(",")
+                            except:
+                                print("Invalid instagram link")
                         if(row[1] is not ''):
-                            driver.get(row[1])
-                            descriptionSpans = WebDriverWait(driver,3).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[data-testId='UserDescription'] span")))
-                            for span in descriptionSpans:
-                                spanText = span.text
-                                dataCollected[row[0]]["twitterBussinesEmail"]=re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', spanText)
-                            if "twitterBussinesEmail" in dataCollected[row[0]]:
-                                emailsFile.write("%s"%(dataCollected[row[0]]["twitterBussinesEmail"]))
-                            emailsFile.write(",")
+                            try:
+                                driver.get(row[1])
+                                descriptionSpans = WebDriverWait(driver,3).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[data-testId='UserDescription'] span")))
+                                for span in descriptionSpans:
+                                    spanText = span.text
+                                    dataCollected[row[0]]["twitterBussinesEmail"]=re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', spanText)
+                                if "twitterBussinesEmail" in dataCollected[row[0]]:
+                                    emailsFile.write("%s"%(dataCollected[row[0]]["twitterBussinesEmail"]))
+                                emailsFile.write(",")
+                            except:
+                                print("Invalid Twitter link")
 
                         emailsFile.write("\n")
                     
