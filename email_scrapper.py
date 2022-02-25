@@ -62,7 +62,7 @@ headerWritten= False
 loggedFirstLog = False
 LogedIn=False
 
-with open('./allNetworks25feb.csv', newline='') as csvfile:
+with open('./networks1.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     
     for row in spamreader:
