@@ -47,8 +47,8 @@ def logInsta(driver):
         user = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[name='username']")))
         password = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[name='password']")))
         loginButton = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "button[type='submit']")))
-        user.send_keys("vladi2811@protonmail.com")
-        password.send_keys("patataasada11")
+        user.send_keys("tech@sponsorit.live")
+        password.send_keys("vandT7N*wwEj6E%&S+qbZe%k*nySjt%C&p=0BPkjV3q_vK2W68")
         ActionChains(driver).move_to_element(loginButton).click(loginButton).perform()
         time.sleep(1)
         rememberLogButton = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "main section button")))[0]
