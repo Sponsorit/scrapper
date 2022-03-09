@@ -16,7 +16,7 @@ def set_chrome_options() -> None:
     Chrome options for headless browser is enabled.
     """
     chrome_options = Options()
-    # chrome_options.add_argument("headless")
+    chrome_options.add_argument("headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-extensions");
@@ -28,7 +28,7 @@ def set_chrome_options() -> None:
     return chrome_options
 
 
-DRIVER_PATH = './chromedriver97'
+DRIVER_PATH = './chromedriver98'
 
 #For docker
 chrome_options = set_chrome_options();
@@ -67,36 +67,37 @@ with open('./networks1.csv', newline='') as csvfile:
     
     for row in spamreader:
         
-        if not LogedIn:
-            print("Not logged in")
-            LogedIn = logInsta(driver)
-        if LogedIn:
-            if not loggedFirstLog:
-                print("Logged In")
-                loggedFirstLog = True
+        # if not LogedIn:
+        #     print("Not logged in")
+        #     LogedIn = logInsta(driver)
+        if isinstance(row,list) and row :
+            # if not loggedFirstLog:
+            #     print("Logged In")
+            #     loggedFirstLog = True
+            print(row)
             userName = row[0]
             print(userName)
             if userName != "user":
                 dataCollected[userName]={}
                 with open('./twitch_users_emails_data.csv', 'a') as emailsFile:
                     if not headerWritten:
-                        emailsFile.write("user,instagramEmail,twitterEmail,\n");
+                        emailsFile.write("user,twitterEmail,\n");
                         print("Headder written")
                         headerWritten = True
                     emailsFile.write(userName+",")
                     
-                    if(row[2] is not ''):
-                        try:
-                            driver.get(row[2])
-                            descriptionSpans = WebDriverWait(driver,3).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "header section div:last-of-type span")))
-                            for span in descriptionSpans:
-                                spanText = span.text
-                                dataCollected[row[0]]["instagramBussinesEmail"]=re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', spanText)
-                            if "instagramBussinesEmail" in dataCollected[row[0]]:
-                                emailsFile.write("%s"%(dataCollected[row[0]]["instagramBussinesEmail"]))
-                            emailsFile.write(",")
-                        except:
-                            print("Invalid instagram link")
+                    # if(row[2] is not ''):
+                    #     try:
+                    #         driver.get(row[2])
+                    #         descriptionSpans = WebDriverWait(driver,3).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "header section div:last-of-type span")))
+                    #         for span in descriptionSpans:
+                    #             spanText = span.text
+                    #             dataCollected[row[0]]["instagramBussinesEmail"]=re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', spanText)
+                    #         if "instagramBussinesEmail" in dataCollected[row[0]]:
+                    #             emailsFile.write("%s"%(dataCollected[row[0]]["instagramBussinesEmail"]))
+                    #         emailsFile.write(",")
+                    #     except:
+                    #         print("Invalid instagram link")
                     if(row[1] is not ''):
                         try:
                             driver.get(row[1])
